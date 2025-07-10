@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Schedule</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 1.5rem;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .nav-buttons button {
+            background-color: #4f46e5;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .nav-buttons button:hover {
+            background-color: #4338ca;
+        }
+        .nav-buttons button.active {
+            background-color: #1e3a8a;
+        }
+        .timezone-selector {
+            margin-top: 1.5rem;
+            text-align: right;
+        }
+        .timezone-selector select {
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            border: 1px solid #cbd5e0;
+            background-color: #f8fafc;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+        }
+        .timezone-selector select:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+        }
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            table-layout: fixed;
+        }
+        .schedule-table th, .schedule-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+            width: calc(100% / 6);
+            vertical-align: top;
+        }
+        .schedule-table th:not(:first-child),
+        .schedule-table td:not(:first-child) {
+            border-left: 1px solid #e2e8f0;
+        }
+        .schedule-table th {
+            background-color: #eff6ff;
+            font-weight: 700;
+            color: #2563eb;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+        }
+        .schedule-table tr:last-child td {
+            border-bottom: none;
+        }
+        .schedule-table tbody tr:hover {
+            background-color: #f5f7fa;
+        }
+        .schedule-table td:first-child {
+            font-weight: 600;
+            color: #4f46e5;
+        }
+        /* Style for lecturer name */
+        .lecturer-name {
+            font-size: 0.85rem;
+            color: #6b7280; /* A slightly darker gray for distinction */
+            margin-top: 0.25rem;
+            display: block; /* Ensures it's on a new line */
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 1rem;
+                padding: 1rem;
+            }
+            .schedule-table th, .schedule-table td {
+                padding: 0.75rem;
+                font-size: 0.9rem;
+            }
+            .nav-buttons {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+            .timezone-selector {
+                text-align: center;
+                margin-top: 1rem;
+            }
+            .schedule-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            .schedule-table thead, .schedule-table tbody, .schedule-table th, .schedule-table td, .schedule-table tr {
+                display: block;
+            }
+            .schedule-table tr {
+                margin-bottom: 0.625em;
+            }
+            .schedule-table td {
+                border: none;
+                border-bottom: 1px solid #e2e8f0;
+                position: relative;
+                padding-left: 50%;
+                text-align: right;
+                width: auto;
+            }
+            .schedule-table td:before {
+                position: absolute;
+                top: 0;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: bold;
+            }
+            .schedule-table td:nth-of-type(1):before { content: "Time"; }
+            .schedule-table td:nth-of-type(2):before { content: "Monday"; }
+            .schedule-table td:nth-of-type(3):before { content: "Tuesday"; }
+            .schedule-table td:nth-of-type(4):before { content: "Wednesday"; }
+            .schedule-table td:nth-of-type(5):before { content: "Thursday"; }
+            .schedule-table td:nth-of-type(6):before { content: "Friday"; }
+
+            .schedule-table th {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="text-4xl font-extrabold text-gray-900 mb-4">Course Schedule</h1>
+            <div class="nav-buttons flex justify-center gap-4">
+                <button id="week1-btn" class="active">Week 1</button>
+                <button id="week2-btn">Week 2</button>
+            </div>
+            <div class="timezone-selector">
+                <label for="timezone-select" class="mr-2 text-gray-700 font-medium">View in:</label>
+                <select id="timezone-select">
+                    <!-- Options will be dynamically populated by JavaScript -->
+                </select>
+            </div>
+        </header>
+
+        <main id="schedule-content">
+            <!-- Schedule content will be loaded here by JavaScript -->
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2025 Course Schedule. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Data for Week 1 schedule (times are assumed to be UTC)
+        // Added 'lecturer' property to each lecture object
+        const week1Schedule = [
+            { time: "09:00-10:00", monday: { title: "Disorders and Interventions - Nervous and Musculoskeletal Systems", lecturer: "Crispin, Theo, Elikem, Ibrahim" }, tuesday: { title: "Action Potential Models", lecturer: "Gilgal" }, wednesday: { title: "Neural Data Analysis - EEG, Intracortical Recording", lecturer: "Crispin, Belinda" }, thursday: { title: "Musculoskeletal System, Motion Capture, Gait Analysis", lecturer: "Elikem, Theo" }, friday: { title: "Electromyography", lecturer: "Gilgal" } },
+            { time: "10:00-11:00", monday: { title: "Disorders and Interventions - Nervous and Musculoskeletal Systems", lecturer: "Crispin, Theo, Elikem, Ibrahim" }, tuesday: { title: "Action Potential Models", lecturer: "Gilgal" }, wednesday: { title: "Neural Data Analysis - EEG, Intracortical Recording", lecturer: "Crispin, Belinda" }, thursday: { title: "Musculoskeletal System, Motion Capture, Gait Analysis", lecturer: "Elikem, Theo" }, friday: { title: "Electromyography", lecturer: "Gilgal" }},
+            { time: "11:00-12:00", monday: { title: "Disorders and Interventions - Nervous and Musculoskeletal Systems", lecturer: "Crispin, Theo, Elikem, Ibrahim" }, tuesday: { title: "Action Potential Models", lecturer: "Gilgal" }, wednesday: { title: "Neural Data Analysis - EEG, Intracortical Recording", lecturer: "Crispin, Belinda" }, thursday: { title: "Musculoskeletal System, Motion Capture, Gait Analysis", lecturer: "Elikem, Theo" }, friday: { title: "Electromyography", lecturer: "Gilgal" } },
+            { time: "12:00-13:00", monday: { title: "Break", lecturer: "" }, tuesday: { title: "Break", lecturer: "" }, wednesday: { title: "Break", lecturer: "" }, thursday: { title: "Break", lecturer: "" }, friday: { title: "Break", lecturer: "" } },
+            { time: "13:00-14:00", monday: { title: "Intro to Neuroscience - Neuroanatomy, Neuroplasticity", lecturer: "Juliet, Ibrahim" }, tuesday: { title: "Practical session", lecturer: "" }, wednesday: { title: "Practical session", lecturer: "" }, thursday: { title: "Practical session", lecturer: "" }, friday: { title: "Practical session", lecturer: "" } },
+            { time: "14:00-15:00", monday: { title: "Intro to Neuroscience - Neuroanatomy, Neuroplasticity", lecturer: "Juliet, Ibrahim" }, tuesday: { title: "Practical session", lecturer: "" }, wednesday: { title: "Practical session", lecturer: "" }, thursday: { title: "Practical session", lecturer: "" }, friday: { title: "Practical session", lecturer: "" } },
+            { time: "15:00-16:00", monday: { title: "Intro to Neuroscience - Neuroanatomy, Neuroplasticity", lecturer: "Juliet, Ibrahim"}, tuesday: { title: "Student Assignments", lecturer: "" }, wednesday: { title: "Student Assignments", lecturer: "" }, thursday: { title: "Student Assignments", lecturer: "" }, friday: { title: "Project work - group formation", lecturer: "" } },
+            { time: "16:00-17:00", monday: { title: "Intro to Neuroscience - Neuroanatomy, Neuroplasticity", lecturer: "Juliet, Ibrahim" }, tuesday: { title: "Student Assignments", lecturer: "" }, wednesday: { title: "Student Assignments", lecturer: "" }, thursday: { title: "Student Assignments", lecturer: "" }, friday: { title: "Project work - group formation", lecturer: "" } }
+        ];
+
+        // Data for Week 2 schedule (times are assumed to be UTC)
+        // Added 'lecturer' property to each lecture object
+        const week2Schedule = [
+            { time: "09:00-10:00", monday: { title: "Prosthetics and Orthotics", lecturer: "Matilda, Gilgal" }, tuesday: { title: "Motor and Sensory Neuroprostheses", lecturer: "Crispin, Ibrahim, Belinda, Gilgal" }, wednesday: { title: "Project work - Presentation I", lecturer: "" }, thursday: { title: "Project Work", lecturer: "" }, friday: { title: "Project Work", lecturer: "" } },
+            { time: "10:00-11:00", monday: { title: "Prosthetics and Orthotics", lecturer: "Matilda, Gilgal" }, tuesday: { title: "Motor and Sensory Neuroprostheses", lecturer: "Crispin, Ibrahim, Belinda, Gilgal" }, wednesday: { title: "Project work - Presentation I", lecturer: "" }, thursday: { title: "Project Work", lecturer: "" }, friday: { title: "Project Work", lecturer: "" } },
+            { time: "11:00-12:00", monday: { title: "Prosthetics and Orthotics", lecturer: "Matilda, Gilgal" }, tuesday: { title: "Motor and Sensory Neuroprostheses", lecturer: "Crispin, Ibrahim, Belinda, Gilgal" }, wednesday: { title: "Project work - Presentation I", lecturer: "" }, thursday: { title: "Project Work", lecturer: "" }, friday: { title: "Project Work", lecturer: "" } },
+            { time: "12:00-13:00", monday: { title: "Break", lecturer: "" }, tuesday: { title: "Break", lecturer: "" }, wednesday: { title: "Break", lecturer: "" }, thursday: { title: "Break", lecturer: "" }, friday: { title: "Break", lecturer: "" } },
+            { time: "13:00-14:00", monday: { title: "Practical session", lecturer: "" }, tuesday: { title: "Neuromodulation", lecturer: "Juliet, Ibrahim" }, wednesday: { title: "Project Work", lecturer: "" }, thursday: { title: "Project Work - Presentation II", lecturer: "" }, friday: { title: "Project Work - Presentation III", lecturer: "" } },
+            { time: "14:00-15:00", monday: { title: "Practical session", lecturer: "" }, tuesday: { title: "Neuromodulation", lecturer: "Juliet, Ibrahim" }, wednesday: { title: "Project Work", lecturer: "" }, thursday: { title: "Project Work", lecturer: "" }, friday: { title: "Project Work - Presentation III", lecturer: "" } },
+            { time: "15:00-16:00", monday: { title: "Student Assignments", lecturer: "" }, tuesday: { title: "Student Assignments", lecturer: "" }, wednesday: { title: "Project Work", lecturer: "" }, thursday: { title: "Project Work", lecturer: "" }, friday: { title: "Wrap-up", lecturer: "" } },
+            { time: "16:00-17:00", monday: { title: "Student Assignments", lecturer: "" }, tuesday: { title: "Student Assignments", lecturer: "" }, wednesday: { title: "Project Work", lecturer: "" }, thursday: { title: "Project Work", lecturer: "" }, friday: { title: "Wrap-up", lecturer: "" } }
+        ];
+
+        const scheduleContent = document.getElementById('schedule-content');
+        const week1Btn = document.getElementById('week1-btn');
+        const week2Btn = document.getElementById('week2-btn');
+        const timezoneSelect = document.getElementById('timezone-select');
+
+        let currentWeek = 1; // Default to Week 1
+        let currentTimezone = 'UTC'; // Initialize with a fallback, will be updated by detection
+
+        /**
+         * Populates the timezone select dropdown with only the specified time zones.
+         * Attempts to pre-select the user's current local timezone if it matches one of the specified ones.
+         */
+        function populateTimezoneSelect() {
+            const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone; // Detect user's timezone
+
+            // Clear existing options
+            timezoneSelect.innerHTML = '';
+
+            // Define the specific time zones to include
+            const desiredTimezones = [
+                { value: 'UTC', text: 'UTC' },
+                { value: 'Europe/London', text: 'UK Time (GMT/BST)' }, // Covers GMT and BST
+                { value: 'America/New_York', text: 'EDT (Eastern Daylight Time)' }, // Represents EDT
+                { value: 'America/Chicago', text: 'CDT (Central Daylight Time)' }  // Represents CDT
+            ];
+
+            let userTimeZoneFoundAndSelected = false;
+
+            desiredTimezones.forEach(tzInfo => {
+                const option = document.createElement('option');
+                option.value = tzInfo.value;
+                option.textContent = tzInfo.text;
+                timezoneSelect.appendChild(option);
+
+                // Check if the current desired timezone matches the user's actual timezone
+                if (tzInfo.value === userTimeZone) {
+                    currentTimezone = userTimeZone; // Set current timezone to user's local
+                    option.selected = true;
+                    userTimeZoneFoundAndSelected = true;
+                }
+            });
+
+            // If the user's timezone was not among the explicitly desired ones,
+            // default to UTC and ensure it's selected.
+            if (!userTimeZoneFoundAndSelected) {
+                timezoneSelect.value = 'UTC';
+                currentTimezone = 'UTC';
+                // Find the UTC option and explicitly select it if it wasn't already
+                const utcOption = Array.from(timezoneSelect.options).find(opt => opt.value === 'UTC');
+                if (utcOption) {
+                    utcOption.selected = true;
+                }
+            }
+        }
+
+
+        /**
+         * Converts a UTC time string (e.g., "09:00") to a specified timezone.
+         * @param {string} utcTime - The time string in UTC (HH:MM).
+         * @param {string} targetTimezone - The IANA timezone string (e.g., "America/New_York").
+         * @returns {string} The converted time string in HH:MM format.
+         */
+        function convertTime(utcTime, targetTimezone) {
+            try {
+                const dateTimeString = `2000-01-01T${utcTime}:00Z`; // 'Z' explicitly marks it as UTC
+                const date = new Date(dateTimeString);
+
+                if (isNaN(date.getTime())) {
+                    console.error("Invalid date string for conversion:", dateTimeString);
+                    return utcTime; // Return original if parsing fails
+                }
+
+                const options = {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false, // Use 24-hour format
+                    timeZone: targetTimezone
+                };
+                return new Intl.DateTimeFormat('en-US', options).format(date);
+            } catch (error) {
+                console.error("Error converting time:", error);
+                return utcTime; // Fallback to original time on error
+            }
+        }
+
+        /**
+         * Renders the schedule table for the given week data.
+         * @param {Array<Object>} scheduleData - The array of schedule objects for the week.
+         */
+        function renderSchedule(scheduleData) {
+            let tableHTML = `
+                <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Week ${currentWeek} Schedule</h2>
+                <table class="schedule-table rounded-lg overflow-hidden shadow-md">
+                    <thead>
+                        <tr>
+                            <th class="py-3 px-4">Time (<span id="current-timezone-display">${currentTimezone}</span>)</th>
+                            <th class="py-3 px-4">Monday</th>
+                            <th class="py-3 px-4">Tuesday</th>
+                            <th class="py-3 px-4">Wednesday</th>
+                            <th class="py-3 px-4">Thursday</th>
+                            <th class="py-3 px-4">Friday</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            scheduleData.forEach(row => {
+                const [startTimeUTC, endTimeUTC] = row.time.split('-');
+                const convertedStartTime = convertTime(startTimeUTC, currentTimezone);
+                const convertedEndTime = convertTime(endTimeUTC, currentTimezone);
+                const displayedTime = `${convertedStartTime}-${convertedEndTime}`;
+
+                tableHTML += `
+                    <tr>
+                        <td class="py-3 px-4">${displayedTime}</td>
+                        <td class="py-3 px-4">${formatLectureContent(row.monday)}</td>
+                        <td class="py-3 px-4">${formatLectureContent(row.tuesday)}</td>
+                        <td class="py-3 px-4">${formatLectureContent(row.wednesday)}</td>
+                        <td class="py-3 px-4">${formatLectureContent(row.thursday)}</td>
+                        <td class="py-3 px-4">${formatLectureContent(row.friday)}</td>
+                    </tr>
+                `;
+            });
+
+            tableHTML += `
+                    </tbody>
+                </table>
+            `;
+            scheduleContent.innerHTML = tableHTML;
+            // Update the timezone display in the header
+            document.getElementById('current-timezone-display').textContent = currentTimezone;
+        }
+
+        /**
+         * Formats the lecture content to include title and lecturer.
+         * @param {Object} lectureData - An object containing 'title' and 'lecturer' properties.
+         * @returns {string} HTML string for the lecture content.
+         */
+        function formatLectureContent(lectureData) {
+            if (!lectureData || !lectureData.title) {
+                return ''; // Return empty string if no lecture data or title
+            }
+            let content = `<span>${lectureData.title}</span>`;
+            if (lectureData.lecturer) {
+                content += `<span class="lecturer-name">(${lectureData.lecturer})</span>`;
+            }
+            return content;
+        }
+
+
+        /**
+         * Updates the active state of the week navigation buttons.
+         */
+        function updateNavButtons() {
+            week1Btn.classList.remove('active');
+            week2Btn.classList.remove('active');
+            if (currentWeek === 1) {
+                week1Btn.classList.add('active');
+            } else {
+                week2Btn.classList.add('active');
+            }
+        }
+
+        // Event listeners for week navigation buttons
+        week1Btn.addEventListener('click', () => {
+            currentWeek = 1;
+            renderSchedule(week1Schedule);
+            updateNavButtons();
+        });
+
+        week2Btn.addEventListener('click', () => {
+            currentWeek = 2;
+            renderSchedule(week2Schedule);
+            updateNavButtons();
+        });
+
+        // Event listener for timezone selection
+        timezoneSelect.addEventListener('change', (event) => {
+            currentTimezone = event.target.value;
+            if (currentWeek === 1) {
+                renderSchedule(week1Schedule);
+            } else {
+                renderSchedule(week2Schedule);
+            }
+        });
+
+        // Initial setup on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            populateTimezoneSelect(); // Populate the dropdown first
+            renderSchedule(week1Schedule); // Render Week 1 by default
+            updateNavButtons(); // Set Week 1 button as active
+        });
+    </script>
+</body>
+</html>

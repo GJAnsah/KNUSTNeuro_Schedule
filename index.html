@@ -188,8 +188,12 @@ body {
 </div>
 
 <script>
+
+    
         // Data for Week 1 schedule (times are assumed to be UTC)
         // Added 'lecturer' property to each lecture object
+
+
         const week1Schedule = [
         { time: "09:00-10:00", monday: { title: "Disorders and Interventions - Nervous and Musculoskeletal Systems", lecturer: "Crispin, Theo, Elikem, Ibrahim" }, tuesday: { title: "Action Potential Models", lecturer: "Gilgal" }, wednesday: { title: "Neural Data Analysis - EEG, Intracortical Recording", lecturer: "Crispin, Belinda" }, thursday: { title: "Musculoskeletal System, Motion Capture, Gait Analysis", lecturer: "Elikem, Theo" }, friday: { title: "Electromyography", lecturer: "Gilgal" } },
         { time: "10:00-11:00", monday: { title: "Disorders and Interventions - Nervous and Musculoskeletal Systems", lecturer: "Crispin, Theo, Elikem, Ibrahim" }, tuesday: { title: "Action Potential Models", lecturer: "Gilgal" }, wednesday: { title: "Neural Data Analysis - EEG, Intracortical Recording", lecturer: "Crispin, Belinda" }, thursday: { title: "Musculoskeletal System, Motion Capture, Gait Analysis", lecturer: "Elikem, Theo" }, friday: { title: "Electromyography", lecturer: "Gilgal" }},
@@ -204,14 +208,14 @@ body {
         // Data for Week 2 schedule (times are assumed to be UTC)
         // Added 'lecturer' property to each lecture object
         const week2Schedule = [
-        { time: "09:00-10:00", monday: { title: "Prosthetics and Orthotics", lecturer: "Matilda, Gilgal" }, tuesday: { title: "Motor and Sensory Neuroprostheses", lecturer: "Crispin, Ibrahim, Belinda, Gilgal" }, wednesday: { title: "Project work - Presentation I", lecturer: "" }, thursday: { title: "Project Work", lecturer: "" }, friday: { title: "Project Work", lecturer: "" } },
-        { time: "10:00-11:00", monday: { title: "Prosthetics and Orthotics", lecturer: "Matilda, Gilgal" }, tuesday: { title: "Motor and Sensory Neuroprostheses", lecturer: "Crispin, Ibrahim, Belinda, Gilgal" }, wednesday: { title: "Project work - Presentation I", lecturer: "" }, thursday: { title: "Project Work", lecturer: "" }, friday: { title: "Project Work", lecturer: "" } },
-        { time: "11:00-12:00", monday: { title: "Prosthetics and Orthotics", lecturer: "Matilda, Gilgal" }, tuesday: { title: "Motor and Sensory Neuroprostheses", lecturer: "Crispin, Ibrahim, Belinda, Gilgal" }, wednesday: { title: "Project work - Presentation I", lecturer: "" }, thursday: { title: "Project Work", lecturer: "" }, friday: { title: "Project Work", lecturer: "" } },
-        { time: "12:00-13:00", monday: { title: "Break", lecturer: "" }, tuesday: { title: "Break", lecturer: "" }, wednesday: { title: "Break", lecturer: "" }, thursday: { title: "Break", lecturer: "" }, friday: { title: "Break", lecturer: "" } },
-        { time: "13:00-14:00", monday: { title: "Practical session", lecturer: "" }, tuesday: { title: "Neuromodulation", lecturer: "Juliet, Ibrahim" }, wednesday: { title: "Project Work", lecturer: "" }, thursday: { title: "Project Work - Presentation II", lecturer: "" }, friday: { title: "Project Work - Presentation III", lecturer: "" } },
-        { time: "14:00-15:00", monday: { title: "Practical session", lecturer: "" }, tuesday: { title: "Neuromodulation", lecturer: "Juliet, Ibrahim" }, wednesday: { title: "Project Work", lecturer: "" }, thursday: { title: "Project Work", lecturer: "" }, friday: { title: "Project Work - Presentation III", lecturer: "" } },
-        { time: "15:00-16:00", monday: { title: "Student Assignments", lecturer: "" }, tuesday: { title: "Student Assignments", lecturer: "" }, wednesday: { title: "Project Work", lecturer: "" }, thursday: { title: "Project Work", lecturer: "" }, friday: { title: "Wrap-up", lecturer: "" } },
-        { time: "16:00-17:00", monday: { title: "Student Assignments", lecturer: "" }, tuesday: { title: "Student Assignments", lecturer: "" }, wednesday: { title: "Project Work", lecturer: "" }, thursday: { title: "Project Work", lecturer: "" }, friday: { title: "Wrap-up", lecturer: "" } }
+        { time: "09:00-10:00", tuesday: { title: "Prosthetics and Orthotics", lecturer: "Matilda, Gilgal" }, monday: { title: "Motor and Sensory Neuroprostheses", lecturer: "Crispin, Ibrahim, Belinda, Gilgal" }, wednesday: { title: "Project work - Presentation I", lecturer: "" }, thursday: { title: "Project Work", lecturer: "" }, friday: { title: "Project Work", lecturer: "" } },
+        { time: "10:00-11:00", tuesday: { title: "Prosthetics and Orthotics", lecturer: "Matilda, Gilgal" }, monday: { title: "Motor and Sensory Neuroprostheses", lecturer: "Crispin, Ibrahim, Belinda, Gilgal" }, wednesday: { title: "Project work - Presentation I", lecturer: "" }, thursday: { title: "Project Work", lecturer: "" }, friday: { title: "Project Work", lecturer: "" } },
+        { time: "11:00-12:00", tuesday: { title: "Prosthetics and Orthotics", lecturer: "Matilda, Gilgal" }, monday: { title: "Motor and Sensory Neuroprostheses", lecturer: "Crispin, Ibrahim, Belinda, Gilgal" }, wednesday: { title: "Project work - Presentation I", lecturer: "" }, thursday: { title: "Project Work", lecturer: "" }, friday: { title: "Project Work", lecturer: "" } },
+        { time: "12:00-13:00", tuesday: { title: "Break", lecturer: "" }, monday: { title: "Break", lecturer: "" }, wednesday: { title: "Break", lecturer: "" }, thursday: { title: "Break", lecturer: "" }, friday: { title: "Break", lecturer: "" } },
+        { time: "13:00-14:00", tuesday: { title: "Practical session", lecturer: "" }, monday: { title: "Neuromodulation", lecturer: "Juliet, Ibrahim" }, wednesday: { title: "Project Work", lecturer: "" }, thursday: { title: "Project Work - Presentation II", lecturer: "" }, friday: { title: "Project Work - Presentation III", lecturer: "" } },
+        { time: "14:00-15:00", tuesday: { title: "Practical session", lecturer: "" }, monday: { title: "Neuromodulation", lecturer: "Juliet, Ibrahim" }, wednesday: { title: "Project Work", lecturer: "" }, thursday: { title: "Project Work", lecturer: "" }, friday: { title: "Project Work - Presentation III", lecturer: "" } },
+        { time: "15:00-16:00", tuesday: { title: "Student Assignments", lecturer: "" }, monday: { title: "Student Assignments", lecturer: "" }, wednesday: { title: "Project Work", lecturer: "" }, thursday: { title: "Project Work", lecturer: "" }, friday: { title: "Wrap-up", lecturer: "" } },
+        { time: "16:00-17:00", tuesday: { title: "Student Assignments", lecturer: "" }, monday: { title: "Student Assignments", lecturer: "" }, wednesday: { title: "Project Work", lecturer: "" }, thursday: { title: "Project Work", lecturer: "" }, friday: { title: "Wrap-up", lecturer: "" } }
         ];
 
         const scheduleContent = document.getElementById('schedule-content');
@@ -221,6 +225,12 @@ body {
 
         let currentWeek = 1; // Default to Week 1
         let currentTimezone = 'UTC'; // Initialize with a fallback, will be updated by detection
+        
+        const weekStartDates = {
+            1: 15, // Example: Week 1 starts on Mon July 14, 2025
+            2: 22  // Example: Week 2 starts on Mon July 21, 2025
+        };
+
 
         /**
          * Populates the timezone select dropdown with only the specified time zones.
@@ -303,17 +313,19 @@ body {
          * @param {Array<Object>} scheduleData - The array of schedule objects for the week.
          */
          function renderSchedule(scheduleData) {
+            // Get the base Monday date for the current week
+            const startDate = weekStartDates[currentWeek];
             let tableHTML = `
             <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Week ${currentWeek} Schedule</h2>
             <table class="schedule-table rounded-lg overflow-hidden shadow-md">
             <thead>
             <tr>
             <th class="py-3 px-4">Time (<span id="current-timezone-display">${currentTimezone}</span>)</th>
-            <th class="py-3 px-4">Monday</th>
-            <th class="py-3 px-4">Tuesday</th>
-            <th class="py-3 px-4">Wednesday</th>
-            <th class="py-3 px-4">Thursday</th>
-            <th class="py-3 px-4">Friday</th>
+            <th class="py-3 px-4">Monday<br>Sep ${startDate}</th>
+            <th class="py-3 px-4">Tuesday<br>Sep ${startDate+1}</th>
+            <th class="py-3 px-4">Wednesday<br>Sep ${startDate+2}</th>
+            <th class="py-3 px-4">Thursday<br>Sep ${startDate+3}</th>
+            <th class="py-3 px-4">Friday<br>Sep ${startDate+4}</th>
             </tr>
             </thead>
             <tbody>

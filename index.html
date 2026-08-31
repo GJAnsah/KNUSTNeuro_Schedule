@@ -223,7 +223,7 @@ function showWeek(n) {
 
 function applyTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
-    document.getElementById('theme-toggle').textContent = theme === 'dark' ? '☀ Light' : '☾ Dark';
+    document.getElementById('theme-toggle').textContent = theme === 'dark' ? '☀' : '☾';
     try { localStorage.setItem('knust-theme', theme); } catch (e) {}
 }
 

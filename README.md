@@ -6,9 +6,10 @@ Schedule for a Neural Engineering and Biomechanics program at Kwame Nkrumah Univ
 
 **Neuroscience & Neural Engineering**
 - Neuroanatomy, neuroplasticity, action potentials
-- Neural data recording & analysis
+- Neural data recording & analysis (EEG, fNIRS, intracortical)
+- Intracortical brain-computer interfaces
 - Motor & sensory neuroprostheses
-- Neuromodulation (VNS, DBS, vision prostheses)
+- Neuromodulation
 
 **Biomechanics & Movement**
 - Musculoskeletal system
@@ -18,13 +19,7 @@ Schedule for a Neural Engineering and Biomechanics program at Kwame Nkrumah Univ
 
 ## 🛠️ Practicals
 
-- Action potential modeling
-- Neural decoding for motor imagery
-- Time-frequency analysis (wavelet/Hilbert)
-- Unsupervised learning on neural data (k-means, PCA)
-- EMG signal acquisition & processing
-- Muscle modeling
-
-## 📅 Format
-
-2-week intensive program with lectures, hands-on practicals, and student projects.
+- Action potential modeling and neural decoding basics
+- EEG signal analysis
+- Motion capture and EMG signal processing
+- Guided student capstone projects

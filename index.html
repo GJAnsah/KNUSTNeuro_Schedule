@@ -81,6 +81,29 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); c
 .footer a { color: var(--accent); text-decoration: none; }
 .footer a:hover { text-decoration: underline; }
 
+/* Section headers */
+.section { margin-bottom: 3rem; }
+.section-header { font-family: 'Fraunces', serif; font-size: 24px; font-weight: 500; color: var(--text-strong); margin-bottom: 1.25rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--card-border); }
+
+/* Overview section */
+.overview-lead { font-size: 15px; color: var(--text-body); margin-bottom: 1.5rem; max-width: 720px; }
+.overview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; }
+.overview-block { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 8px; padding: 1.25rem; }
+.overview-block h3 { font-family: 'Fraunces', serif; font-size: 15px; font-weight: 500; color: var(--accent); margin-bottom: 0.75rem; }
+.overview-block ul { list-style: none; padding: 0; margin: 0; }
+.overview-block ul li { font-size: 13px; color: var(--text); padding: 4px 0 4px 16px; position: relative; line-height: 1.5; }
+.overview-block ul li::before { content: "·"; color: var(--accent); position: absolute; left: 4px; font-weight: bold; }
+.overview-block p { font-size: 13px; color: var(--text); line-height: 1.5; }
+
+/* Instructors section */
+.inst-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.25rem; }
+.inst-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 8px; padding: 1.25rem; text-align: center; }
+.inst-photo { width: 80px; height: 80px; border-radius: 50%; background: var(--bg); border: 1px solid var(--card-border); margin: 0 auto 0.75rem; display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--text-muted); overflow: hidden; }
+.inst-photo img { width: 100%; height: 100%; object-fit: cover; }
+.inst-name { font-family: 'Fraunces', serif; font-size: 15px; font-weight: 500; color: var(--text-strong); margin-bottom: 0.25rem; }
+.inst-role { font-size: 12px; color: var(--accent); margin-bottom: 0.25rem; }
+.inst-affiliation { font-size: 11px; color: var(--text-muted); font-style: italic; line-height: 1.4; }
+
 /* Responsive */
 @media (max-width: 640px) {
     .container { padding: 2rem 1.25rem; }
@@ -108,11 +131,41 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); c
     <a href="https://pitt.zoom.us/j/92177626043" target="_blank" class="zoom-btn" id="zoom-link">Join Zoom</a>
 </header>
 
-<!-- Week toggle -->
-<div class="week-toggle">
-    <button class="week-btn active" id="w1btn" onclick="showWeek(1)">Week 1 · Instruction</button>
-    <button class="week-btn" id="w2btn" onclick="showWeek(2)">Week 2 · Projects</button>
-</div>
+<!-- Overview & Learning Outcomes -->
+<section class="section" id="overview">
+    <h2 class="section-header">Overview & Learning Outcomes</h2>
+    <p class="overview-lead">The Neuromuscular Short Course is a virtual program introducing rising senior biomedical engineering undergrada to the fundamentals and applications of neural engineering and biomechanics. Over one week of instruction and one week of guided project work, students learn how neural signals are generated, recorded, and translated into technologies that restore movement and sensation.</p>
+    <div class="overview-grid">
+        <div class="overview-block">
+            <h3>What you'll learn</h3>
+            <ul>
+                <li>Neural signals and intracortical BCIs</li>
+                <li>Neural data recording and analysis (EEG, fNIRS)</li>
+                <li>Neuromechanical systems, motion capture, and EMG</li>
+                <li>Applied translation and clinical context</li>
+                <li>Independent project design and presentation</li>
+            </ul>
+        </div>
+        <div class="overview-block">
+            <h3>Who it's for</h3>
+            <p>Rising senior engineering undergraduates at KNUST with an interest in neuroscience, biomedical engineering, or bioinstrumentation.</p>
+        </div>
+        <div class="overview-block">
+            <h3>Prerequisites</h3>
+            <p>Basic Python/MATLAB programming.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Schedule section wrapper -->
+<section class="section" id="schedule">
+    <h2 class="section-header">Schedule</h2>
+
+    <!-- Week toggle -->
+    <div class="week-toggle">
+        <button class="week-btn active" id="w1btn" onclick="showWeek(1)">Week 1 · Instruction</button>
+        <button class="week-btn" id="w2btn" onclick="showWeek(2)">Week 2 · Projects</button>
+    </div>
 
 <!-- Week 1 schedule -->
 <div id="week1" class="sched-wrap">
@@ -194,16 +247,60 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); c
                     <div class="sched-inst">Mentors on call</div>
                 </td>
             </tr>
-            <tr>
-                <td>
-                    <div class="sched-day">Fri · Sep 25</div>
-                    <span class="sched-topic-am">Final project presentation — capstone idea evaluation</span>
-                    <div class="sched-inst">All</div>
-                </td>
-            </tr>
         </tbody>
     </table>
 </div>
+</section>
+
+<!-- Instructors -->
+<section class="section" id="instructors">
+    <h2 class="section-header">Instructors</h2>
+    <div class="inst-grid">
+        <div class="inst-card">
+            <div class="inst-photo"><img src="instructors/adwoa.jpg" alt=👤></div>
+            <div class="inst-name">Adwoa</div>
+            <div class="inst-role">fNIRS · EMG</div>
+            <div class="inst-affiliation">Sensorimotor Learning Lab, University of Pittsburgh</div>
+        </div>
+        <div class="inst-card">
+            <div class="inst-photo"><img src="instructors/belinda.jpg" alt=👤></div>
+            <div class="inst-name">Belinda</div>
+            <div class="inst-role">Brain-Computer Interfacing</div>
+            <div class="inst-affiliation">Speech and Applied Neuroscience Lab, University of Kansas
+</div>
+        </div>
+        <div class="inst-card">
+            <div class="inst-photo"><img src="instructors/crispin.jpg" alt=👤></div>
+            <div class="inst-name">Crispin</div>
+            <div class="inst-role">Systems neuroscience · Brain-Computer Interfacing</div>
+            <div class="inst-affiliation">Laboratory for Intelligent Machine-Brain Systems, Case Western Reserve University</div>
+        </div>
+        <div class="inst-card">
+            <div class="inst-photo"><img src="instructors/elikem.jpg" alt=👤></div>
+            <div class="inst-name">Elikem</div>
+            <div class="inst-role">Biomechanics</div>
+            <div class="inst-affiliation">Musculoskeletal Biomechanics Lab, University of Florida</div>
+        </div>
+        <div class="inst-card">
+            <div class="inst-photo"><img src="instructors/gilgal.jpg" alt=👤></div>
+            <div class="inst-name">Gilgal</div>
+            <div class="inst-role">Neural Interfaces · Neuroprostheses</div>
+            <div class="inst-affiliation">Rehab Neural Engineering Labs, University of Pittsburgh</div>
+        </div>
+        <div class="inst-card">
+            <div class="inst-photo"><img src="instructors/matilda.jpg" alt=👤></div>
+            <div class="inst-name">Matilda</div>
+            <div class="inst-role">Orthotist · Prosthetist</div>
+            <div class="inst-affiliation">The Robert Jones and Agnes Hunt Orthopaedic Hospital, England</div>
+        </div>
+        <div class="inst-card">
+            <div class="inst-photo"><img src="instructors/theo.jpg" alt=👤></div>
+            <div class="inst-name">Theo</div>
+            <div class="inst-role">Biomechanics</div>
+            <div class="inst-affiliation">Neuromuscular Biomechanics Lab, University of Delaware</div>
+        </div>
+    </div>
+</section>
 
 <!-- Footer -->
 <footer class="footer">
